@@ -4116,6 +4116,15 @@ public final class Settings {
          * @hide
          */
         public static final String SCREENSHOT_TIMEOUT = "screenshot_timeout";
+        
+        /**
+         * @hide
+         * Show Wifi network name in notification shade
+         * 0 - don't show
+         * 1 - show
+         */
+        public static final String NOTIFICATION_SHOW_WIFI_SSID = "notification_show_wifi_ssid";
+        
     }
 
     /**
