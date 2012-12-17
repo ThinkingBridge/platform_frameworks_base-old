@@ -3631,6 +3631,13 @@ public final class Settings {
         public static final String CUSTOM_TOGGLE_QTY = "custom_toggle_qty";
 
         /**
+         * Override and forcefully disable the fullscreen keyboard
+         * @hide
+         */
+        public static final String DISABLE_FULLSCREEN_KEYBOARD = "disable_fullscreen_keyboard";
+
+        /**
+         * Show the pending notification counts as overlays on the status bar
          * @hide
          */
         public static final String[] CUSTOM_PRESS_TOGGLE = new String[] {
