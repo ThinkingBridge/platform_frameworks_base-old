@@ -2367,6 +2367,7 @@ public final class Settings {
          * @hide
          */
         public static final String TORCH_STATE = "torch_state";
+        
         /**
          * Pointer speed setting.
          * This is an integer value in a range between -7 and +7, so there are 15 possible values.
@@ -2376,6 +2377,12 @@ public final class Settings {
          * @hide
          */
         public static final String POINTER_SPEED = "pointer_speed";
+
+        /**
+         * Whether national data roaming should be used.
+         * @hide
+         */
+        public static final String MVNO_ROAMING = "mvno_roaming";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
