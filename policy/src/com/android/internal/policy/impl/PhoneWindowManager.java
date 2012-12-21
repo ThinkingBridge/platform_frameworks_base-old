@@ -17,8 +17,10 @@ package com.android.internal.policy.impl;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.ActivityManagerNative;
 import android.app.AppGlobals;
+import android.app.IActivityManager;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.IUiModeManager;
@@ -55,6 +57,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.PowerManager;
+import android.os.Process;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
@@ -875,6 +878,50 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private final Runnable mScreenshotChordLongPress = new Runnable() {
         public void run() {
             takeScreenshot();
+        }
+    };
+    
+    Runnable mBackLongPress = new Runnable() {
+        public void run() {
+            try {
+                final Intent intent = new Intent(Intent.ACTION_MAIN);
+                String defaultHomePackage = "com.android.launcher";
+                intent.addCategory(Intent.CATEGORY_HOME);
+                final ResolveInfo res = mContext.getPackageManager().resolveActivity(intent, 0);
+                if (res.activityInfo != null && !res.activityInfo.packageName.equals("android")) {
+                    defaultHomePackage = res.activityInfo.packageName;
+                }
+                boolean targetKilled = false;
+                IActivityManager am = ActivityManagerNative.getDefault();
+                List<RunningAppProcessInfo> apps = am.getRunningAppProcesses();
+                for (RunningAppProcessInfo appInfo : apps) {
+                    int uid = appInfo.uid;
+                    // Make sure it's a foreground user application (not system,
+                    // root, phone, etc.)
+                    if (uid >= Process.FIRST_APPLICATION_UID && uid <= Process.LAST_APPLICATION_UID
+                            && appInfo.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                        if (appInfo.pkgList != null && (appInfo.pkgList.length > 0)) {
+                            for (String pkg : appInfo.pkgList) {
+                                if (!pkg.equals("com.android.systemui") && !pkg.equals(defaultHomePackage)) {
+                                    am.forceStopPackage(pkg, UserHandle.USER_CURRENT);
+                                    targetKilled = true;
+                                    break;
+                                }
+                            }
+                        } else {
+                            Process.killProcess(appInfo.pid);
+                            targetKilled = true;
+                        }
+                    }
+                    if (targetKilled) {
+                        performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
+                        Toast.makeText(mContext, R.string.app_killed_message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+            } catch (RemoteException remoteException) {
+                // Do nothing; just let it go.
+            }
         }
     };
 
@@ -2054,6 +2101,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             } catch (PackageManager.NameNotFoundException e) {
                 // Ignore
             }
+            
+         // Construct the Toast
 
             Window win = PolicyManager.makeNewWindow(context);
             final TypedArray ta = win.getWindowStyle();
@@ -2340,6 +2389,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
                 return -1;
             }
+        }
+        
+        if (keyCode == KeyEvent.KEYCODE_BACK && !down) {
+        	mHandler.removeCallbacks(mBackLongPress);
         }
 
         if (keyCode == KeyEvent.KEYCODE_BACK && !down) {

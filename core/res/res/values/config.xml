@@ -1057,7 +1057,7 @@
 
     <!-- Timeout in MS for how long you have to long-press the back key to
          kill the foreground app. -->
-    <integer name="config_backKillTimeout">750</integer>
+    <integer name="config_backKillTimeout">500</integer>
 
     <!-- LUN file to be used by legacy USB manager.
          The existence of this file will be used to determine in the
@@ -1082,5 +1082,4 @@
     <integer name="config_deviceHardwareMenuScanCode">-1</integer>
     <integer name="config_deviceHardwareHomeScanCode">-1</integer>
     <integer name="config_deviceHardwareBackScanCode">-1</integer>
-
 </resources>
