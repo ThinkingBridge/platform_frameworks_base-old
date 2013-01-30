@@ -224,7 +224,6 @@ public class TabletStatusBar extends BaseStatusBar implements
     public String[] mClockActions = new String[3];
     private boolean mClockDoubleClicked;
     private View mDateTimeView;
-    private int mShowSearchHoldoff = 0;
 
     public Context getContext() { return mContext; }
 
