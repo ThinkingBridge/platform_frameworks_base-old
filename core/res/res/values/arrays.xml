@@ -419,6 +419,7 @@
         <item>@string/reboot_reboot</item>
         <item>@string/reboot_recovery</item>
         <item>@string/reboot_bootloader</item>
+        <item>@string/reboot_hot</item>
     </array>
     
     <!-- do not translate -->
@@ -426,6 +427,7 @@
         <item></item>
         <item>recovery</item>
         <item>bootloader</item>
+        <item>hot</item>
     </string-array>
     
 </resources>

@@ -287,6 +287,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 }
             });
         
+        // next: reboot
         mItems.add(
                 new SinglePressAction(R.drawable.ic_lock_reboot, R.string.global_action_reboot) {
                 	public void onPress() {
@@ -307,7 +308,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 }
             });
         
-     // next: screenshot
+        // next: screenshot
         mItems.add(
             new SinglePressAction(R.drawable.ic_lock_screenshot, R.string.global_action_screenshot) {
                 public void onPress() {
