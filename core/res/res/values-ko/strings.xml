@@ -1514,7 +1514,7 @@
     <string name="global_action_expanded_desktop_off">비활성화</string>
     
     <!-- Back to kill -->
-    <string name="app_killed_message">애플리케이션 종료.</string>
+    <string name="app_killed_message">%1$s 애플리케이션 종료.</string>
     
     <string name="trash">버리기</string>
 </resources>
