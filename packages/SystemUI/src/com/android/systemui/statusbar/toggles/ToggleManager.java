@@ -92,6 +92,7 @@ public class ToggleManager {
     public static final String PIE_TOGGLE = "PIE";
     //public static final String MEMORY_SIZE_TOGGLE = "MEMORY_SIZE";
     public static final String SCREENSHOT_TOGGLE = "SCREENSHOT";
+    public static final String CUSTOM_TOGGLE = "CUSTOM";
 
     private int mStyle;
 
@@ -145,6 +146,7 @@ public class ToggleManager {
             toggleMap.put(PIE_TOGGLE, PieToggle.class);
             //toggleMap.put(MEMORY_SIZE_TOGGLE, MemorySizeToggle.class);
             toggleMap.put(SCREENSHOT_TOGGLE, ScreenshotToggle.class);
+            toggleMap.put(CUSTOM_TOGGLE, CustomToggle.class);
             // toggleMap.put(BT_TETHER_TOGGLE, null);
         }
         return toggleMap;
