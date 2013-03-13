@@ -416,7 +416,6 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
                 }
 
                 updateClearButton();
-                updatePanelModeButtons();
             }
         });
         a.start();
@@ -434,12 +433,6 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
 
     public void setClearable(boolean clearable) {
         mHasClearableNotifications = clearable;
-    }
-
-    public void updatePanelModeButtons() {
-        final boolean settingsVisible = mSettingsView.getVisibility() == View.VISIBLE;
-        mSettingsButton.setVisibility(!settingsVisible && mSettingsButton.isEnabled() ? View.VISIBLE : View.GONE);
-        mNotificationButton.setVisibility(settingsVisible ? View.VISIBLE : View.GONE);
     }
 
     public boolean isInContentArea(int x, int y) {
@@ -733,7 +726,7 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
     public void setSettingsEnabled(boolean settingsEnabled) {
         if (mSettingsButton != null) {
             mSettingsButton.setEnabled(settingsEnabled);
-            updatePanelModeButtons();
+            mSettingsButton.setVisibility(settingsEnabled ? View.VISIBLE : View.GONE);
         }
     }
 
