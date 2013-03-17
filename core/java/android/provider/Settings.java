@@ -352,6 +352,13 @@ public final class Settings {
     @SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
     public static final String ACTION_USER_DICTIONARY_SETTINGS =
             "android.settings.USER_DICTIONARY_SETTINGS";
+    
+    /**
+     * Pie toggle?
+     */
+    @SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
+    public static final String ACTION_PIECONTROL =
+            "com.aokp.romcontrol.fragments.Pie";
 
     /**
      * Activity Action: Adds a word to the user dictionary.
