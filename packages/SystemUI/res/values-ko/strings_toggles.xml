@@ -39,6 +39,7 @@
     <string name="toggle_LTE">LTE</string>
     <string name="toggle_FAVCONTACT">즐겨찾는 주소록</string>
     <string name="toggle_SOUNDSTATE">소리 상태</string>
+    <string name="toggle_VOLUME">볼륨</string>
     <string name="toggle_NAVBARHIDE">네비바 숨김</string>
     <string name="toggle_QUICKRECORD">빠른 녹음</string>
     <string name="toggle_QUIETHOURS">취침 시간</string>
