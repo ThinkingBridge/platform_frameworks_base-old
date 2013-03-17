@@ -1935,5 +1935,7 @@
   <java-symbol type="drawable" name="ic_lockscreen_rss" />
   <java-symbol type="drawable" name="ic_lockscreen_sms" />
   <java-symbol type="drawable" name="ic_lockscreen_twitter" />
-  
+
+  <!-- Screenshort Trash -->
+  <java-symbol type="string" name="trash" />
 </resources>

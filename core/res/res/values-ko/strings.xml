@@ -1515,4 +1515,6 @@
     
     <!-- Back to kill -->
     <string name="app_killed_message">애플리케이션 종료.</string>
+    
+    <string name="trash">버리기</string>
 </resources>
