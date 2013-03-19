@@ -1583,16 +1583,22 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                                 com.android.internal.R.dimen.navigation_bar_height);
                 mNavigationBarHeightForRotation[mLandscapeRotation] =
                 mNavigationBarHeightForRotation[mSeascapeRotation] =
-                        mContext.getResources().getDimensionPixelSize(
-                                com.android.internal.R.dimen.navigation_bar_height_landscape);
+                        Settings.System.getInt(
+                        		mContext.getContentResolver(),
+                        		Settings.System.NAVIGATION_BAR_HEIGHT_LANDSCAPE,
+                        		mContext.getResources().getDimensionPixelSize(
+                        				com.android.internal.R.dimen.navigation_bar_height_landscape));
 
                 // Width of the navigation bar when presented vertically along one side
                 mNavigationBarWidthForRotation[mPortraitRotation] =
                 mNavigationBarWidthForRotation[mUpsideDownRotation] =
                 mNavigationBarWidthForRotation[mLandscapeRotation] =
                 mNavigationBarWidthForRotation[mSeascapeRotation] =
-                        mContext.getResources().getDimensionPixelSize(
-                                com.android.internal.R.dimen.navigation_bar_width);
+                        Settings.System.getInt(
+                        		mContext.getContentResolver(),
+                        		Settings.System.NAVIGATION_BAR_WIDTH,
+                        		mContext.getResources().getDimensionPixelSize(
+                        				com.android.internal.R.dimen.navigation_bar_width));
             }
         }
 
