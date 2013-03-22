@@ -27,22 +27,18 @@ public class MemorySizeToggle extends StatefulToggle {
     @Override
     protected void init(Context c, int style) {
         super.init(c, style);
-        setIcon(R.drawable.ic_qs_settings);
-        mAm = (ActivityManager) mContext
-				.getSystemService(Context.ACTIVITY_SERVICE);
+        setIcon(R.drawable.ic_qs_memory);
+        mAm = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         mMemInfo = new ActivityManager.MemoryInfo();
         refresh();
     }
-
+    
     @Override
     public boolean onLongClick(View v) {
         Intent intent = new Intent("android.intent.action.MAIN");
-        intent.setComponent(ComponentName
-                .unflattenFromString("com.android.settings/.RunningServices"));
-        intent.addCategory("android.intent.category.LAUNCHER");
-        
+        intent.setClassName("com.android.settings", "com.android.settings/.RunningServices");
+        intent.addCategory("android.intent.category.DEFAULT");
         startActivity(intent);
-        
         return super.onLongClick(v);
     }
 
@@ -72,5 +68,3 @@ public class MemorySizeToggle extends StatefulToggle {
         updateCurrentState(State.DISABLED);
     }
 }
-
-
