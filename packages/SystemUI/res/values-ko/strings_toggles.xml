@@ -45,7 +45,7 @@
     <string name="toggle_QUIETHOURS">취침 시간</string>
     <string name="toggle_SLEEP">잠자기</string>
     <string name="toggle_PIE">파이</string>
-    <string name="toggle_SCREENSHOT">스크린샷</string>
     <string name="toggle_MEMORY_SIZE">메모리용량</string>
     <string name="toggle_CUSTOM">커스텀</string>
+    <string name="toggle_SCREENSHOT">스크린샷</string>
 </resources>
