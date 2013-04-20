@@ -3264,10 +3264,16 @@ public final class Settings {
         public static final String CHOOSE_FASTTOGGLE_SIDE = "choose_fasttoggle_side";
         
         /**
-         * Port Mokee StatusBar Mokee 
+         * Port Mokee StatusBar Network Traffic
          * @hide
          */
-        public static final String STATUS_BAR_TRAFFIC = "status_bar_traffic"; 
+        public static final String STATUS_BAR_TRAFFIC = "status_bar_traffic";
+        
+        /**
+         * StatusBar Network Traffic Color
+         * @hide
+         */
+        public static final String STATUS_BAR_TRAFFIC_COLOR = "status_bar_traffic_color";
 
         /**
          * Whether electronic beam animation is enabled or not
