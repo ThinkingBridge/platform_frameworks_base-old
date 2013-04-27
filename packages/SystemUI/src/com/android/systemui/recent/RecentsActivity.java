@@ -235,7 +235,6 @@ public class RecentsActivity extends Activity {
         break;
         }else{      
             ImageView app = new ImageView(getBaseContext());  
-            app = new ImageView(getApplicationContext());
             app.setImageDrawable(loadappicon(appname));
             app.setTag(appname);
             app.setScaleType(ImageView.ScaleType.CENTER_INSIDE);

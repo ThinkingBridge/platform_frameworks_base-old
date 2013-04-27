@@ -182,8 +182,9 @@ public class RecentShortcut extends Activity {
 		            	for(;;){
 		            		if(stapplist.size() == number){
 		            		break;
-		            		}else{
-		            			editor.putString("app"+number+1, stapplist.get(number).toString());
+		            		}else{  
+                       int number2 = number+1;
+		            			editor.putString("app"+number2, stapplist.get(number).toString());
 		            			number++;
 		            		}
 		            	}
