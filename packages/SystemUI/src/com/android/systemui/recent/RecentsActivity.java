@@ -24,17 +24,27 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.widget.HorizontalScrollView;
+import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 
 import com.android.systemui.R;
 import com.android.systemui.statusbar.tablet.StatusBarPanel;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class RecentsActivity extends Activity {
     public static final String TOGGLE_RECENTS_INTENT = "com.android.systemui.recent.action.TOGGLE_RECENTS";
@@ -52,6 +62,9 @@ public class RecentsActivity extends Activity {
     private boolean mForeground;
     
     public static boolean mHomeForeground = false;
+    private final ArrayList<String> stapplist = new ArrayList<String>();  
+    LinearLayout mScrollViewInner;
+    HorizontalScrollView Scroll;
 
     private BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
         @Override
@@ -189,6 +202,7 @@ public class RecentsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	   super.onCreate(savedInstanceState);
         setContentView(R.layout.status_bar_recent_panel);
         mRecentsPanel = (RecentsPanelView) findViewById(R.id.recents_root);
         mRecentsPanel.setOnTouchListener(new TouchOutsideListener(mRecentsPanel));
@@ -201,13 +215,60 @@ public class RecentsActivity extends Activity {
         if (savedInstanceState == null ||
                 savedInstanceState.getBoolean(WAS_SHOWING)) {
             handleIntent(getIntent(), (savedInstanceState == null));
-        }
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(CLOSE_RECENTS_INTENT);
         mIntentFilter.addAction(WINDOW_ANIMATION_START_INTENT);
         registerReceiver(mIntentReceiver, mIntentFilter);
-        super.onCreate(savedInstanceState);
     }
+    mScrollViewInner = (LinearLayout) findViewById(R.id.scrollviewin);
+    	final SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        int number = 0;
+        for(;;){
+	    View space = new View(getApplicationContext());
+            mScrollViewInner.addView(space, new LayoutParams(
+            LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            space.setLayoutParams(new LinearLayout.LayoutParams(5, 5,
+                  1.0f));
+        ++number;
+        String appname = pref.getString("app"+String.valueOf(number), "").trim();     
+        if(appname.length() == 0){
+        break;
+        }else{      
+            ImageView app = new ImageView(getBaseContext());  
+            app = new ImageView(getApplicationContext());
+            app.setImageDrawable(loadappicon(appname));
+            app.setTag(appname);
+            app.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            app.setPadding(3,3,3,3);
+            app.setOnClickListener(new View.OnClickListener(){
+             public void onClick(View v){
+             execapp((String) v.getTag());              
+            }
+            });
+             app.setLayoutParams(new LinearLayout.LayoutParams(90, 90,
+                   1.0f));
+                  
+         }
+        }
+     }
+   
+
+   public void execapp(String app){
+    Intent intent = new Intent();
+    intent = getPackageManager().getLaunchIntentForPackage(app);
+    startActivity(intent);
+
+   }
+ 
+   public Drawable loadappicon(String packagename){
+    PackageManager pm = getApplicationContext().getPackageManager();
+    Drawable icon = null;
+    try {
+      icon = pm.getApplicationIcon(packagename);
+    } catch (NameNotFoundException e) {
+    }
+    return icon;
+   }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
