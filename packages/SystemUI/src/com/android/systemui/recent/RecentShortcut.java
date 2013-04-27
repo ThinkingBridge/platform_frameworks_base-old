@@ -40,6 +40,7 @@ import com.android.systemui.R;
 public class RecentShortcut extends Activity {
     private final ArrayList<ResolveInfo> mPackageInfoList = new ArrayList<ResolveInfo>();
     private final ArrayList<String> stapplist = new ArrayList<String>();
+    private final ArrayList<String> fsapplist = new ArrayList<String>();
     Dialog addapp;
     public int complete;
     Appload appload;
@@ -73,10 +74,12 @@ public class RecentShortcut extends Activity {
 	        MyAdapter2 adapter2 = new MyAdapter2(this, R.layout.listapp, stapplist);
         	al.setAdapter(adapter2);
         }
+        fsapplist = stapplist;
         }
 	}
     public void onStop(){
       super.onStop();
+      if(fsapplist == stapplist)
       restartSystemUI();
     }
     public void restartSystemUI() {
