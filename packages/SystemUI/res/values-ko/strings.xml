@@ -272,4 +272,11 @@
     <string name="quick_settings_screenshot">스크린샷</string>
     <string name="quick_settings_volume">볼륨</string>
 
+    <!--  Recent Shortcuts -->
+    <string name="recent_n">바로가기가 설정되지 않았습니다.</string>
+    <string name="recent_n1">버튼을 눌러 추가하세요.</string>
+    <string name="delete">삭제</string>
+    <string name="chooseapp">앱 선택</string>
+    <string name="appsh">앱 바로가기</string>
+
 </resources>
