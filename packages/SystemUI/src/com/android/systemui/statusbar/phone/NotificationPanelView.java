@@ -163,6 +163,11 @@ public class NotificationPanelView extends PanelView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+    	if (event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN && event.getPointerCount() > 1)
+    	{
+    		android.os.PowerManager pm = (android.os.PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+    		pm.goToSleep(android.os.SystemClock.uptimeMillis());
+    	}
         boolean shouldRecycleEvent = false;
         if (PhoneStatusBar.SETTINGS_DRAG_SHORTCUT && mStatusBar.mHasFlipSettings) {
             boolean shouldFlip = false;
