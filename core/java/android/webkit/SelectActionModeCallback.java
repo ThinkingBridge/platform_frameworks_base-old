@@ -129,7 +129,7 @@ class SelectActionModeCallback implements ActionMode.Callback {
                 mWebView.getContext().startActivity(i);
                 try{
                 	mWebView.getContext().startActivity(i);
-                }catch(Exeption e){
+                }catch(Exception e){
                 }
                 break;
 
