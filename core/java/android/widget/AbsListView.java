@@ -688,6 +688,10 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
      * Interface definition for a callback to be invoked when the list or grid
      * has been scrolled.
      */
+     
+     public float mP1,mP2,mP3,mBP1,mBP2,mBP3;
+     public boolean mUseFullSwing = false; 
+     public boolean mGotY = false;
     public interface OnScrollListener {
 
         /**
@@ -3268,7 +3272,19 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
 
         initVelocityTrackerIfNotExists();
         mVelocityTracker.addMovement(ev);
-
+                  if(ev.getPointerCount() >= 3&&!mGotY){
+        	     		mP1 = ev.getY(0);
+        	        mP2 = ev.getY(1);
+        	     	   mP3 = ev.getY(2);
+        	     	      mUseFullSwing = true;
+        	     	android.util.Log.e("Scroll","Enable FullSwing");
+        	     	mGotY = true;
+        	     		}
+        	     		if(ev.getPointerCount() >= 3&&mGotY){
+        	     		mBP1 = ev.getY(0);
+        	        mBP2 = ev.getY(1);
+        	     	   mBP3 = ev.getY(2);
+        	     			}
         switch (action & MotionEvent.ACTION_MASK) {
         case MotionEvent.ACTION_DOWN: {
             switch (mTouchMode) {
@@ -3367,6 +3383,24 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         }
 
         case MotionEvent.ACTION_UP: {
+        	     if(mUseFullSwing){
+        	     	  if((mP1+mP2+mP3)/3 < (mBP1+mBP2+mBP3)/3){
+        	     	  post(new Runnable() { 
+                         public void run() { 
+                         smoothScrollToPosition(0);
+                    }}); 
+                            	     	android.util.Log.e("Scroll","FullScrollToBottom");
+                 }
+	        	    else if((mP1+mP2+mP3)/3 > (mBP1+mBP2+mBP3)/3){
+        	     	  post(new Runnable() { 
+                         public void run() { 
+                         smoothScrollToPosition(getCount()-1);
+                    }}); 
+                            	     	android.util.Log.e("Scroll","FullScrollToTop");
+                 }
+        	     	  mUseFullSwing = false;
+        	     	  mGotY = false;
+        	     	}
             switch (mTouchMode) {
             case TOUCH_MODE_DOWN:
             case TOUCH_MODE_TAP:
