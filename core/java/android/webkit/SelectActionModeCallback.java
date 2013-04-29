@@ -127,6 +127,10 @@ class SelectActionModeCallback implements ActionMode.Callback {
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
                 mWebView.getContext().startActivity(i);
+                try{
+                	mWebView.getContext().startActivity(i);
+                }catch(Exeption e){
+                }
                 break;
 
             default:
