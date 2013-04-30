@@ -3388,16 +3388,16 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         	     	  post(new Runnable() { 
                          public void run() { 
                          smoothScrollToPosition(0);
-                    }}); 
-                            	     	android.util.Log.e("Scroll","FullScrollToBottom");
-                 }
+                    }});
+        	     	 Log.e("Scroll","FullScrollToBottom");
+        	     	  }
 	        	    else if((mP1+mP2+mP3)/3 > (mBP1+mBP2+mBP3)/3){
         	     	  post(new Runnable() { 
                          public void run() { 
                          smoothScrollToPosition(getCount()-1);
-                    }}); 
-                            	     	android.util.Log.e("Scroll","FullScrollToTop");
-                 }
+                    }});
+        	     	 Log.e("Scroll","FullScrollToTop");
+	        	    }
         	     	  mUseFullSwing = false;
         	     	  mGotY = false;
         	     	}
