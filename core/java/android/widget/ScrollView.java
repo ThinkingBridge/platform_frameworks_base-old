@@ -148,7 +148,9 @@ public class ScrollView extends FrameLayout {
      * Used by {@link #mActivePointerId}.
      */
     private static final int INVALID_POINTER = -1;
-
+    public float mP1,mP2,mP3,mBP1,mBP2,mBP3;
+    public boolean mUseFullSwing = false; 
+    public boolean mGotY = false;
     public ScrollView(Context context) {
         this(context, null);
     }
@@ -569,7 +571,19 @@ public class ScrollView extends FrameLayout {
         mVelocityTracker.addMovement(ev);
 
         final int action = ev.getAction();
-
+         if(ev.getPointerCount() >= 3&&!mGotY){
+                  mP1 = ev.getY(0);
+                  mP2 = ev.getY(1);
+                  mP3 = ev.getY(2);
+                  mUseFullSwing = true;
+                  android.util.Log.e("Scroll","Enable FullSwing");
+                  mGotY = true;
+                     }
+                   if(ev.getPointerCount() >= 3&&mGotY){
+                   mBP1 = ev.getY(0);
+                   mBP2 = ev.getY(1);
+                   mBP3 = ev.getY(2);
+                     }
         switch (action & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN: {
                 if (getChildCount() == 0) {
@@ -659,6 +673,23 @@ public class ScrollView extends FrameLayout {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+             if(mUseFullSwing){
+                   if((mP1+mP2+mP3)/3 < (mBP1+mBP2+mBP3)/3){
+                   post(new Runnable() { 
+                         public void run() { 
+                         fullScroll(ScrollView.FOCUS_UP);
+                    }}); 
+                                     android.util.Log.e("Scroll","FullScrollToBottom");                 }
+                else if((mP1+mP2+mP3)/3 > (mBP1+mBP2+mBP3)/3){
+                   post(new Runnable() { 
+                         public void run() { 
+                         fullScroll(ScrollView.FOCUS_DOWN);
+                    }}); 
+                                     android.util.Log.e("Scroll","FullScrollToTop");
+                 }
+                   mUseFullSwing = false;
+                   mGotY = false;
+                 }
                 if (mIsBeingDragged) {
                     final VelocityTracker velocityTracker = mVelocityTracker;
                     velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
