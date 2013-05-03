@@ -535,6 +535,10 @@
 
     <!--  ThinkingBridge -->
 
+    <!--  App window Strings -->
+    <string name="close">Close</string>
+    <string name="app_window">Applications</string>
+
     <!--  Target/Action Strings -->
     <string name="shortcut_label">SystemUI actions</string>
     <string name="action_home">Home</string>
