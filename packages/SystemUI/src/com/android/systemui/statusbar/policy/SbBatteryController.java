@@ -121,6 +121,10 @@ public class SbBatteryController extends LinearLayout {
         mChangeCallbacks.add(cb);
     }
 
+    public void removeStateChangedCallback(BatteryStateChangeCallback cb) {
+        mChangeCallbacks.remove(cb);
+    }
+
     private BroadcastReceiver mBatteryBroadcastReceiver = new BroadcastReceiver() {
 
         @Override
