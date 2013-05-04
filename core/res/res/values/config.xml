@@ -1082,4 +1082,8 @@
     <integer name="config_deviceHardwareMenuScanCode">-1</integer>
     <integer name="config_deviceHardwareHomeScanCode">-1</integer>
     <integer name="config_deviceHardwareBackScanCode">-1</integer>
+
+    <!-- Integer to configure panel auto brightness mode when changed -->
+    <integer name="config_panelAutoBrightnessValue">-1</integer>
+
 </resources>
