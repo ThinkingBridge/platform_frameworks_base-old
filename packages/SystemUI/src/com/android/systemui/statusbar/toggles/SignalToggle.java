@@ -10,7 +10,6 @@ import android.provider.Settings.SettingNotFoundException;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.systemui.R;
 import com.android.systemui.statusbar.phone.QuickSettingsTileView;
@@ -132,22 +131,20 @@ public class SignalToggle extends StatefulToggle implements NetworkSignalChanged
 
     @Override
     protected void doEnable() {
-        collapseStatusBar();
         connManager.setMobileDataEnabled(true);
-        String strData = connManager.getMobileDataEnabled() ?
-        mContext.getString(R.string.quick_settings_data_on_label)
-        : mContext.getString(R.string.quick_settings_data_off_label);
-        Toast.makeText(mContext, strData, Toast.LENGTH_SHORT).show();
+        // String strData = connManager.getMobileDataEnabled() ?
+        // mContext.getString(R.string.quick_settings_data_on_label)
+        // : mContext.getString(R.string.quick_settings_data_off_label);
+        // Toast.makeText(mContext, strData, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void doDisable() {
-        collapseStatusBar();
         connManager.setMobileDataEnabled(false);
-        String strData = connManager.getMobileDataEnabled() ?
-        mContext.getString(R.string.quick_settings_data_on_label)
-        : mContext.getString(R.string.quick_settings_data_off_label);
-        Toast.makeText(mContext, strData, Toast.LENGTH_SHORT).show();
+        // String strData = connManager.getMobileDataEnabled() ?
+        // mContext.getString(R.string.quick_settings_data_on_label)
+        // : mContext.getString(R.string.quick_settings_data_off_label);
+        // Toast.makeText(mContext, strData, Toast.LENGTH_SHORT).show();
     }
 
     @Override
