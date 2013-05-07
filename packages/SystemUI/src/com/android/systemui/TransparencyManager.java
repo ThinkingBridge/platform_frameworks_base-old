@@ -89,7 +89,7 @@ public class TransparencyManager {
 
     public void update() {
         mHandler.removeCallbacks(updateTransparencyRunnable);
-        mHandler.postDelayed(updateTransparencyRunnable, 100);
+        mHandler.post(updateTransparencyRunnable);
     }
 
     public void setNavbar(NavigationBarView n) {
