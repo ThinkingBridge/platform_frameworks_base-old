@@ -264,6 +264,10 @@ public class WebView extends AbsoluteLayout
         ViewGroup.OnHierarchyChangeListener, ViewDebug.HierarchyHandler {
 
     private static final String LOGTAG = "webview_proxy";
+    
+    public float mP1,mP2,mP3,mBP1,mBP2,mBP3;
+    public boolean mUseFullSwing = false; 
+    public boolean mGotY = false;
 
     /**
      *  Transportation object for returning WebView across thread boundaries.
@@ -1960,8 +1964,41 @@ public class WebView extends AbsoluteLayout
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return mProvider.getViewDelegate().onTouchEvent(event);
-    }
+    	if(ev.getPointerCount() >= 3&&!mGotY){
+        	mP1 = ev.getY(0);
+        	mP2 = ev.getY(1);
+        	mP3 = ev.getY(2);
+        	mUseFullSwing = true;
+        	//Log.e("Scroll","Enable FullSwing");
+        	mGotY = true;
+        }
+        if(ev.getPointerCount() >= 3&&mGotY){
+        	mBP1 = ev.getY(0);
+        	mBP2 = ev.getY(1);
+        	mBP3 = ev.getY(2);
+        }
+    	switch (ev.action & MotionEvent.ACTION_MASK) {
+    	case MotionEvent.ACTION_UP: {
+    		if(mUseFullSwing) {
+    			if((mP1+mP2+mP3)/3 < (mBP1+mBP2+mBP3)/3){
+    				post(new Runnable() { 
+    					public void run() { 
+    						smoothScrollTo(0,0);
+    					}});
+    				//Log.e("Scroll","FullScrollToBottom");
+    				else if((mP1+mP2+mP3)/3 > (mBP1+mBP2+mBP3)/3){
+    					post(new Runnable() {
+    						public void run() {
+    							smoothScrollTo(0,getBottom());
+    						}});
+    					//Log.e("Scroll","FullScrollToTop");
+    						}
+    				mUseFullSwing = false;
+    				mGotY = false;
+    					}
+    				}
+            return mProvider.getViewDelegate().onTouchEvent(event);
+    	}
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
