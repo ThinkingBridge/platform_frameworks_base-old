@@ -3277,7 +3277,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
         	mP2 = ev.getY(1);
         	mP3 = ev.getY(2);
         	mUseFullSwing = true;
-        	//Log.e("Scroll","Enable FullSwing");
+        	Log.e("Scroll","Enable FullSwing");
         	mGotY = true;
         }
         if(ev.getPointerCount() >= 3&&mGotY){
@@ -3389,14 +3389,14 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
                          public void run() { 
                          smoothScrollToPosition(0);
                     }});
-        	     	 //Log.e("Scroll","FullScrollToBottom");
+        	     	 Log.e("Scroll","FullScrollToBottom");
         	     	  }
 	        	    else if((mP1+mP2+mP3)/3 > (mBP1+mBP2+mBP3)/3){
         	     	  post(new Runnable() { 
                          public void run() { 
                          smoothScrollToPosition(getCount()-1);
                     }});
-        	     	 //Log.e("Scroll","FullScrollToTop");
+        	     	 Log.e("Scroll","FullScrollToTop");
 	        	    }
         	     	  mUseFullSwing = false;
         	     	  mGotY = false;

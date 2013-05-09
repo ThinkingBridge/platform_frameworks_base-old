@@ -576,7 +576,7 @@ public class ScrollView extends FrameLayout {
                   mP2 = ev.getY(1);
                   mP3 = ev.getY(2);
                   mUseFullSwing = true;
-                  //Log.e("Scroll","Enable FullSwing");
+                  android.util.Log.e("Scroll","Enable FullSwing");
                   mGotY = true;
                      }
                    if(ev.getPointerCount() >= 3&&mGotY){
@@ -679,13 +679,13 @@ public class ScrollView extends FrameLayout {
                          public void run() { 
                          fullScroll(ScrollView.FOCUS_UP);
                     }}); 
-                    //Log.e("Scroll","FullScrollToBottom");                 }
+                                     android.util.Log.e("Scroll","FullScrollToBottom");                 }
                 else if((mP1+mP2+mP3)/3 > (mBP1+mBP2+mBP3)/3){
                    post(new Runnable() { 
                          public void run() { 
                          fullScroll(ScrollView.FOCUS_DOWN);
                     }}); 
-                    //Log.e("Scroll","FullScrollToTop");
+                                     android.util.Log.e("Scroll","FullScrollToTop");
                  }
                    mUseFullSwing = false;
                    mGotY = false;
