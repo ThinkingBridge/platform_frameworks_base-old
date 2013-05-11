@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.ActivityManagerNative;
-import android.app.AppGlobals;
 import android.app.IActivityManager;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
@@ -165,7 +164,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * WindowManagerPolicy implementation for the Android phone UI.  This
@@ -1173,38 +1171,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mSettingsObserver = new SettingsObserver(mHandler);
         mSettingsObserver.observe();
 
-        // Expanded desktop
-        mContext.getContentResolver().registerContentObserver(
-                Settings.System.getUriFor(Settings.System.EXPANDED_DESKTOP_STATE),
-                    false, new ContentObserver(new Handler()) {
-            @Override
-            public void onChange(boolean selfChange) {
-
-                if (Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.EXPANDED_DESKTOP_RESTART_LAUNCHER, 1) == 1) {
-                    // Restart default launcher activity
-                    final PackageManager mPm = mContext.getPackageManager();
-                    final ActivityManager am = (ActivityManager)mContext
-                            .getSystemService(Context.ACTIVITY_SERVICE);
-                    final Intent intent = new Intent(Intent.ACTION_MAIN); 
-                    intent.addCategory(Intent.CATEGORY_HOME); 
-                    final ResolveInfo res = mPm.resolveActivity(intent, 0);
-
-                    // Launcher is running task #1
-                    List<ActivityManager.RunningTaskInfo> runningTasks = am.getRunningTasks(1);
-                    if (runningTasks != null) {
-                        for (ActivityManager.RunningTaskInfo task : runningTasks) {
-                            String packageName = task.baseActivity.getPackageName();
-                            if (packageName.equals(res.activityInfo.packageName)) {
-                                closeApplication(packageName);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
         mShortcutManager = new ShortcutManager(context, mHandler);
         mShortcutManager.observe();
         mUiMode = context.getResources().getInteger(
@@ -1452,16 +1418,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mHdmiRotation = mLandscapeRotation;
         }
         mHdmiRotationLock = SystemProperties.getBoolean("persist.demo.hdmirotationlock", true);
-    }
-
-    private void closeApplication(String packageName) {
-        try {
-            ActivityManagerNative.getDefault().killApplicationProcess(
-                    packageName, AppGlobals.getPackageManager().getPackageUid(
-                    packageName, UserHandle.myUserId()));
-        } catch (RemoteException e) {
-            // Good luck next time!
-        }
     }
 
     public void updateSettings() {
@@ -3742,9 +3698,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (DEBUG_LAYOUT) Log.i(TAG, "force=" + mForceStatusBar
                     + " forcefkg=" + mForceStatusBarFromKeyguard
                     + " top=" + mTopFullscreenOpaqueWindowState);
-            if ((mForceStatusBar || mForceStatusBarFromKeyguard) &&
-                    Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.EXPANDED_DESKTOP_STATE, 0) == 0) {
+            if ((mForceStatusBar || mForceStatusBarFromKeyguard) {
                 if (DEBUG_LAYOUT) Log.v(TAG, "Showing status bar: forced");
                 if (mStatusBar.showLw(true)) changes |= FINISH_LAYOUT_REDO_LAYOUT;
             } else if (mTopFullscreenOpaqueWindowState != null) {

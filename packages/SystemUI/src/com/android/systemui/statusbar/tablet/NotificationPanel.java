@@ -58,7 +58,6 @@ import com.android.systemui.R;
 import com.android.systemui.statusbar.phone.PanelBar;
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.phone.PhoneStatusBar;
-import com.android.systemui.statusbar.phone.QuickSettingsContainerView;
 import com.android.systemui.statusbar.phone.SettingsPanelView;
 import com.android.systemui.statusbar.policy.BatteryControllerStock;
 import com.android.systemui.statusbar.policy.BluetoothController;
@@ -98,7 +97,6 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
     int mToggleStyle;
     SettingsPanelView mSettingsPanel;
     View mFlipSettingsView;
-    QuickSettingsContainerView mSettingsContainer;
     int mSettingsPanelGravity;
     boolean mNotificationPanelIsFullScreenWidth;
 
