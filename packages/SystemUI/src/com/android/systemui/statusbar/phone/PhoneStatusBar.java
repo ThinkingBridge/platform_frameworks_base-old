@@ -2128,7 +2128,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                     updateNotificationShortcutsVisibility(false);
                 }
             }, FLIP_DURATION - 150);
-        })
+        }
     }
 
     public void flipPanels() {
