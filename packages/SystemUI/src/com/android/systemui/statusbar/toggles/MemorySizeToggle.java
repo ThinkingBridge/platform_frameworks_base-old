@@ -25,7 +25,7 @@ public class MemorySizeToggle extends StatefulToggle {
     MemInfoReader mMemInfoReader = new MemInfoReader();
 
     @Override
-    protected void init(Context c, int style) {
+    public void init(Context c, int style) {
         super.init(c, style);
         setIcon(R.drawable.ic_qs_memory);
         mAm = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
