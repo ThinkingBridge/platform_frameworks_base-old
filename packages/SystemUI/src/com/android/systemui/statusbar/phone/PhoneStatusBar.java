@@ -3119,14 +3119,6 @@ public class PhoneStatusBar extends BaseStatusBar {
                     Settings.System.RIBBON_TEXT_COLOR[AokpRibbonHelper.QUICK_SETTINGS]), false, this);
         }
 
-         @Override
-        public void onChange(boolean selfChange) {
-            boolean uiModeIsToggled = Settings.Secure.getInt(mContext.getContentResolver(),
-                                    Settings.Secure.UI_MODE_IS_TOGGLED, 0) == 1;
-            onChange(selfChange, null);
-            updateSettings();
-        }
-
         public void update() {
             ContentResolver resolver = mContext.getContentResolver();
             mNotificationShortcutsToggle = Settings.System.getIntForUser(resolver,
