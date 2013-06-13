@@ -61,8 +61,6 @@ public class SbBatteryController extends LinearLayout {
     private TextView mBatteryCenterText;
     private ViewGroup mBatteryGroup;
     private TextView mBatteryTextOnly;
-    private TextView mBatteryTextOnly_Low;
-    private TextView mBatteryTextOnly_Plugged;
 
     private static int mBatteryStyle;
 
@@ -94,8 +92,6 @@ public class SbBatteryController extends LinearLayout {
         mBatteryText = (TextView) findViewById(R.id.battery_text);
         mBatteryCenterText = (TextView) findViewById(R.id.battery_text_center);
         mBatteryTextOnly = (TextView) findViewById(R.id.battery_text_only);
-        mBatteryTextOnly_Low = (TextView) findViewById(R.id.battery_text_only_low);
-        mBatteryTextOnly_Plugged = (TextView) findViewById(R.id.battery_text_only_plugged);
         addIconView(mBatteryIcon);
 
         SettingsObserver settingsObserver = new SettingsObserver(new Handler());
@@ -174,6 +170,7 @@ public class SbBatteryController extends LinearLayout {
         if (mBatteryGroup != null) {
             mBatteryText.setText(Integer.toString(level));
             mBatteryCenterText.setText(Integer.toString(level));
+            mBatteryTextOnly.setText(Integer.toString(level));
             SpannableStringBuilder formatted = new SpannableStringBuilder(
                     Integer.toString(level) + "%");
             CharacterStyle style = new RelativeSizeSpan(0.7f); // beautiful
@@ -189,6 +186,7 @@ public class SbBatteryController extends LinearLayout {
                         Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
             }
             mBatteryTextOnly.setText(formatted);
+<<<<<<< HEAD
             mBatteryTextOnly_Low.setText(formatted);
             mBatteryTextOnly_Plugged.setText(formatted);
             if (mBatteryStyle == STYLE_TEXT_ONLY) {
@@ -205,10 +203,15 @@ public class SbBatteryController extends LinearLayout {
                     mBatteryTextOnly_Plugged.setVisibility(View.GONE);
                     mBatteryTextOnly_Low.setVisibility(View.GONE);
                 }
+=======
+            if (plugged) { // colors hardcoded by now, maybe colorpicker can be
+                           // added if needed
+                mBatteryTextOnly.setTextColor(Color.GREEN);
+            } else if (level < 16) {
+                mBatteryTextOnly.setTextColor(Color.RED);
+>>>>>>> parent of 29df118... Themability of battery text type
             } else {
-                mBatteryTextOnly.setVisibility(View.GONE);
-                mBatteryTextOnly_Plugged.setVisibility(View.GONE);
-                mBatteryTextOnly_Low.setVisibility(View.GONE);
+                mBatteryTextOnly.setTextColor(0xFF33B5E5);
             }
 
         }
@@ -243,30 +246,35 @@ public class SbBatteryController extends LinearLayout {
                 mBatteryCenterText.setVisibility(View.GONE);
                 mBatteryText.setVisibility(View.GONE);
                 mBatteryIcon.setVisibility(View.VISIBLE);
+                mBatteryTextOnly.setVisibility(View.GONE);
                 setVisibility(View.VISIBLE);
                 break;
             case STYLE_TEXT_ONLY:
                 mBatteryText.setVisibility(View.GONE);
                 mBatteryCenterText.setVisibility(View.GONE);
                 mBatteryIcon.setVisibility(View.GONE);
+                mBatteryTextOnly.setVisibility(View.VISIBLE);
                 setVisibility(View.VISIBLE);
                 break;
             case STYLE_ICON_TEXT:
                 mBatteryText.setVisibility(View.VISIBLE);
                 mBatteryCenterText.setVisibility(View.GONE);
                 mBatteryIcon.setVisibility(View.VISIBLE);
+                mBatteryTextOnly.setVisibility(View.GONE);
                 setVisibility(View.VISIBLE);
                 break;
             case STYLE_ICON_CENTERED_TEXT:
                 mBatteryText.setVisibility(View.GONE);
                 mBatteryCenterText.setVisibility(View.VISIBLE);
                 mBatteryIcon.setVisibility(View.VISIBLE);
+                mBatteryTextOnly.setVisibility(View.GONE);
                 setVisibility(View.VISIBLE);
                 break;
             case STYLE_HIDE:
                 mBatteryText.setVisibility(View.GONE);
                 mBatteryCenterText.setVisibility(View.GONE);
                 mBatteryIcon.setVisibility(View.GONE);
+                mBatteryTextOnly.setVisibility(View.GONE);
                 setVisibility(View.GONE);
                 break;
             case STYLE_ICON_CIRCLEMOD:
@@ -286,6 +294,7 @@ public class SbBatteryController extends LinearLayout {
                 mBatteryText.setVisibility(View.GONE);
                 mBatteryCenterText.setVisibility(View.GONE);
                 mBatteryIcon.setVisibility(View.VISIBLE);
+                mBatteryTextOnly.setVisibility(View.GONE);
                 setVisibility(View.VISIBLE);
                 break;
             case BATTERY_STYLE_CIRCLE_PERCENT:
@@ -304,6 +313,7 @@ public class SbBatteryController extends LinearLayout {
                 mBatteryText.setVisibility(View.GONE);
                 mBatteryCenterText.setVisibility(View.GONE);
                 mBatteryIcon.setVisibility(View.VISIBLE);
+                mBatteryTextOnly.setVisibility(View.GONE);
                 setVisibility(View.VISIBLE);
                 break;
         }
