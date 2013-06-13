@@ -44,7 +44,6 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -67,17 +66,11 @@ public class Clock extends TextView {
 
     protected int mAmPmStyle = AM_PM_STYLE_GONE;
 
-    public static final int CLOCK_DATE_DISPLAY_GONE = 0;
-    public static final int CLOCK_DATE_DISPLAY_SMALL = 1;
-    public static final int CLOCK_DATE_DISPLAY_NORMAL = 2;
+    public static final int WEEKDAY_STYLE_GONE   = 0;
+    public static final int WEEKDAY_STYLE_SMALL  = 1;
+    public static final int WEEKDAY_STYLE_NORMAL = 2;
 
-    protected int mClockDateDisplay = CLOCK_DATE_DISPLAY_GONE;
-
-    public static final int CLOCK_DATE_STYLE_REGULAR = 0;
-    public static final int CLOCK_DATE_STYLE_LOWERCASE = 1;
-    public static final int CLOCK_DATE_STYLE_UPPERCASE = 2;
-
-    protected int mClockDateStyle = CLOCK_DATE_STYLE_UPPERCASE;
+    protected int mWeekdayStyle = WEEKDAY_STYLE_GONE;
 
     public static final int STYLE_HIDE_CLOCK     = 0;
     public static final int STYLE_CLOCK_RIGHT    = 1;
@@ -188,29 +181,15 @@ public class Clock extends TextView {
             sdf = mClockFormat;
         }
 
-        CharSequence dateString = null;
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+        String todayIs = null;
         String result = sdf.format(mCalendar.getTime());
 
-        if (mClockDateDisplay != CLOCK_DATE_DISPLAY_GONE) {
-            Date now = new Date();
-
-            String clockDateFormat = Settings.System.getString(getContext().getContentResolver(),
-                    Settings.System.STATUSBAR_CLOCK_DATE_FORMAT);
-
-            if (clockDateFormat == null || clockDateFormat.isEmpty()) {
-                // Set dateString to short uppercase Weekday (Default for AOKP) if empty
-                dateString = DateFormat.format("EEE", now) + " ";
-            } else {
-                dateString = DateFormat.format(clockDateFormat, now) + " ";
-            }
-            if (mClockDateStyle == CLOCK_DATE_STYLE_LOWERCASE) {
-                // When Date style is small, convert date to uppercase
-                result = dateString.toString().toLowerCase() + result;
-            } else if (mClockDateStyle == CLOCK_DATE_STYLE_UPPERCASE) {
-                result = dateString.toString().toUpperCase() + result;
-            } else {
-                result = dateString.toString() + result;
-            }
+        if (mWeekdayStyle != WEEKDAY_STYLE_GONE) {
+            todayIs = (new SimpleDateFormat("E")).format(mCalendar.getTime()) + " ";
+            result = todayIs + result;
         }
 
         SpannableStringBuilder formatted = new SpannableStringBuilder(result);
@@ -234,15 +213,14 @@ public class Clock extends TextView {
                 }
             }
         }
-        if (mClockDateDisplay != CLOCK_DATE_DISPLAY_NORMAL) {
-            if (dateString != null) {
-                int dateStringLen = dateString.length();
-                if (mClockDateDisplay == CLOCK_DATE_DISPLAY_GONE) {
-                    formatted.delete(0, dateStringLen);
+        if (mWeekdayStyle != WEEKDAY_STYLE_NORMAL) {
+            if (todayIs != null) {
+                if (mWeekdayStyle == WEEKDAY_STYLE_GONE) {
+                    formatted.delete(result.indexOf(todayIs), result.lastIndexOf(todayIs)+todayIs.length());
                 } else {
-                    if (mClockDateDisplay == CLOCK_DATE_DISPLAY_SMALL) {
+                    if (mWeekdayStyle == WEEKDAY_STYLE_SMALL) {
                         CharacterStyle style = new RelativeSizeSpan(0.7f);
-                        formatted.setSpan(style, 0, dateStringLen,
+                        formatted.setSpan(style, result.indexOf(todayIs), result.lastIndexOf(todayIs)+todayIs.length(),
                                           Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                     }
                 }
@@ -268,13 +246,7 @@ public class Clock extends TextView {
                     .getUriFor(Settings.System.STATUSBAR_CLOCK_COLOR), false,
                     this);
             resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_DATE_DISPLAY), false,
-                    this);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_DATE_STYLE), false,
-                    this);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_DATE_FORMAT), false,
+                    .getUriFor(Settings.System.STATUSBAR_CLOCK_WEEKDAY), false,
                     this);
             updateSettings();
         }
@@ -293,10 +265,8 @@ public class Clock extends TextView {
                 Settings.System.STATUSBAR_CLOCK_AM_PM_STYLE, AM_PM_STYLE_GONE);   
         mClockStyle = Settings.System.getInt(resolver,
                 Settings.System.STATUSBAR_CLOCK_STYLE, STYLE_CLOCK_RIGHT);
-        mClockDateDisplay = Settings.System.getInt(resolver,
-                Settings.System.STATUSBAR_CLOCK_DATE_DISPLAY, CLOCK_DATE_DISPLAY_GONE);
-        mClockDateStyle = Settings.System.getInt(resolver,
-                Settings.System.STATUSBAR_CLOCK_DATE_STYLE, CLOCK_DATE_STYLE_UPPERCASE);
+        mWeekdayStyle = Settings.System.getInt(resolver,
+                Settings.System.STATUSBAR_CLOCK_WEEKDAY, WEEKDAY_STYLE_GONE);
 
         newColor = Settings.System.getInt(resolver,
                 Settings.System.STATUSBAR_CLOCK_COLOR, mClockColor);
