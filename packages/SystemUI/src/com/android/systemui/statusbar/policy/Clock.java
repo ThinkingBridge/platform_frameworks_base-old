@@ -78,7 +78,7 @@ public class Clock extends TextView {
 
     protected int mClockStyle = STYLE_CLOCK_RIGHT;
 
-    protected int mClockColor;
+    protected int mClockColor = com.android.internal.R.color.holo_blue_light;
 
     public Clock(Context context) {
         this(context, null);
@@ -98,7 +98,6 @@ public class Clock extends TextView {
 
         if (!mAttached) {
             mAttached = true;
-            mClockColor = getTextColors().getDefaultColor();
             IntentFilter filter = new IntentFilter();
 
             filter.addAction(Intent.ACTION_TIME_TICK);
@@ -259,7 +258,8 @@ public class Clock extends TextView {
 
     protected void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
-        int newColor = 0;
+        int defaultColor = getResources().getColor(
+                com.android.internal.R.color.holo_blue_light);
 
         mAmPmStyle = Settings.System.getInt(resolver,
                 Settings.System.STATUSBAR_CLOCK_AM_PM_STYLE, AM_PM_STYLE_GONE);   
@@ -268,12 +268,14 @@ public class Clock extends TextView {
         mWeekdayStyle = Settings.System.getInt(resolver,
                 Settings.System.STATUSBAR_CLOCK_WEEKDAY, WEEKDAY_STYLE_GONE);
 
-        newColor = Settings.System.getInt(resolver,
-                Settings.System.STATUSBAR_CLOCK_COLOR, mClockColor);
-        if (newColor < 0 && newColor != mClockColor) {
-            mClockColor = newColor;
-            setTextColor(mClockColor);
+        mClockColor = Settings.System.getInt(resolver,
+                Settings.System.STATUSBAR_CLOCK_COLOR, defaultColor);
+        if (mClockColor == Integer.MIN_VALUE) {
+            // flag to reset the color
+            mClockColor = defaultColor;
         }
+        setTextColor(mClockColor);
+
         updateClockVisibility();
         updateClock();
     }
